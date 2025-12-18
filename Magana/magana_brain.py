@@ -8,7 +8,7 @@ from web_search import search_web
 load_dotenv()
 
 API_KEY = os.getenv("GOOGLE_API_KEY")
-MODEL = "gemini-2.5-flash"
+MODEL = "gemini-3-flash-preview"
 URL = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent"
 
 CONVERSATION_HISTORY = {}
@@ -138,4 +138,5 @@ def get_gemini_response(text_input=None, audio_file_path=None, document_text=Non
 
     except Exception as e:
         print(f"Brain Error: {e}")
+
         return {"reply_text": "Yi hakuri, network matsala.", "intent": "error"}
