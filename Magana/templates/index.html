@@ -1,84 +1,266 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Magana - Ultimate AI</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f0fdf4; transition: background-color 0.3s; overscroll-behavior-y: none; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .pulse-record { animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(220, 38, 38, 0); } 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); } }
-        
-        .typing-cursor::after { content: '●'; color: #059669; animation: blink 1s infinite; margin-left: 2px; }
-        .typing-finished::after { display: none; }
-        @keyframes blink { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f0fdf4;
+            transition: background-color 0.3s;
+            overscroll-behavior-y: none;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .pulse-record {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(220, 38, 38, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+            }
+        }
+
+        .typing-cursor::after {
+            content: '●';
+            color: #059669;
+            animation: blink 1s infinite;
+            margin-left: 2px;
+        }
+
+        .typing-finished::after {
+            display: none;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
 
         /* Themes */
-        body.teacher-mode { background-color: #fff7ed; }
-        .teacher-mode .app-header { background-color: #c2410c; }
-        body.brain-mode { background-color: #f0f9ff; }
-        .brain-mode .app-header { background-color: #0369a1; }
-        body.search-mode { background-color: #f3f4f6; }
-        .search-mode .app-header { background-color: #4b5563; }
+        body.teacher-mode {
+            background-color: #fff7ed;
+        }
+
+        .teacher-mode .app-header {
+            background-color: #c2410c;
+        }
+
+        body.brain-mode {
+            background-color: #f0f9ff;
+        }
+
+        .brain-mode .app-header {
+            background-color: #0369a1;
+        }
+
+        body.search-mode {
+            background-color: #f3f4f6;
+        }
+
+        .search-mode .app-header {
+            background-color: #4b5563;
+        }
+
+        body.vision-mode {
+            background-color: #f5f3ff;
+        }
+
+        .vision-mode .app-header {
+            background-color: #5b21b6;
+        }
 
         /* Components */
-        .proverb-box { border-left: 3px solid #f59e0b; background: #fffbeb; padding: 10px; font-style: italic; margin-top: 5px; font-size: 0.9rem; color: #92400e; border-radius: 0 8px 8px 0; }
-        .reasoning-box { background: #f0f9ff; border-left: 3px solid #0ea5e9; padding: 10px; margin-bottom: 10px; border-radius: 0 8px 8px 0; font-size: 0.9rem; }
-        .step-item { display: flex; gap: 8px; margin-bottom: 8px; }
-        .step-num { font-weight: bold; color: #0284c7; min-width: 20px; }
-        .analysis-text { font-style: italic; color: #555; margin-top: 8px; font-size: 0.85rem; border-top: 1px solid #e0f2fe; padding-top: 5px; }
-        input[type="text"] { font-size: 16px; }
+        .proverb-box {
+            border-left: 3px solid #f59e0b;
+            background: #fffbeb;
+            padding: 10px;
+            font-style: italic;
+            margin-top: 5px;
+            font-size: 0.9rem;
+            color: #92400e;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .reasoning-box {
+            background: #f0f9ff;
+            border-left: 3px solid #0ea5e9;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9rem;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .step-num {
+            font-weight: bold;
+            color: #0284c7;
+            min-width: 20px;
+        }
+
+        .analysis-text {
+            font-style: italic;
+            color: #555;
+            margin-top: 8px;
+            font-size: 0.85rem;
+            border-top: 1px solid #e0f2fe;
+            padding-top: 5px;
+        }
+
+        input[type="text"] {
+            font-size: 16px;
+        }
 
         /* Modal Animation */
-        .modal-enter { animation: modalIn 0.3s ease-out forwards; }
-        @keyframes modalIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .modal-enter {
+            animation: modalIn 0.3s ease-out forwards;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Hausa Loader */
+        .hausa-loader {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            justify-content: center;
+            padding: 5px 0;
+        }
+
+        .hausa-loader span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #10b981;
+            /* Default Green */
+            animation: bounce 0.6s infinite alternate;
+        }
+
+        .hausa-loader span:nth-child(2) {
+            background-color: #f59e0b;
+            animation-delay: 0.2s;
+        }
+
+        /* Yellow */
+        .hausa-loader span:nth-child(3) {
+            background-color: #ef4444;
+            animation-delay: 0.4s;
+        }
+
+        /* Red */
+
+        @keyframes bounce {
+            to {
+                transform: translateY(-6px);
+                opacity: 0.7;
+            }
+        }
     </style>
 </head>
+
 <body class="flex justify-center items-center h-[100dvh] w-full">
 
-    <div class="app-container w-full h-full md:max-w-md md:h-[90vh] bg-white shadow-2xl flex flex-col overflow-hidden md:rounded-3xl border border-emerald-100 relative">
-        
+    <div
+        class="app-container w-full h-full md:max-w-md md:h-[90vh] bg-white shadow-2xl flex flex-col overflow-hidden md:rounded-3xl border border-emerald-100 relative">
+
         <!-- Header -->
         <div class="app-header bg-emerald-900 p-4 text-white shadow-md z-20 transition-colors duration-300 pt-safe-top">
             <div class="flex justify-between items-center mb-1">
                 <div class="flex items-center gap-2">
-                    <div class="w-9 h-9 bg-white text-emerald-900 rounded-full flex items-center justify-center font-bold border-2 border-emerald-600 text-lg">M</div>
+                    <div
+                        class="w-9 h-9 bg-white text-emerald-900 rounded-full flex items-center justify-center font-bold border-2 border-emerald-600 text-lg">
+                        M</div>
                     <h1 id="appTitle" class="font-bold text-base tracking-wide">MAGANA</h1>
                     <!-- Help Button -->
-                    <button id="helpBtn" class="bg-white/20 hover:bg-white/30 rounded-full w-5 h-5 flex items-center justify-center text-[10px] ml-1 transition cursor-pointer"><i class="fas fa-question"></i></button>
+                    <button id="helpBtn"
+                        class="bg-white/20 hover:bg-white/30 rounded-full w-5 h-5 flex items-center justify-center text-[10px] ml-1 transition cursor-pointer"><i
+                            class="fas fa-question"></i></button>
                 </div>
                 <div class="flex items-center gap-4">
-                    <button id="teacherBtn" class="text-emerald-200 hover:text-white transition p-1" title="Teacher"><i class="fas fa-graduation-cap text-lg"></i></button>
-                    <button id="brainBtn" class="text-emerald-200 hover:text-white transition p-1" title="Reasoning"><i class="fas fa-brain text-lg"></i></button>
-                    <button id="searchBtn" class="text-emerald-200 hover:text-white transition p-1" title="Search"><i class="fas fa-globe text-lg"></i></button>
-                    <button id="newChatBtn" class="text-emerald-200 hover:text-white transition p-1" title="Reset"><i class="fas fa-trash-alt text-lg"></i></button>
-                    <button id="settingsBtn" class="text-emerald-200 hover:text-white transition p-1" title="Settings"><i class="fas fa-user-tag text-lg"></i></button>
+                    <button id="newChatBtn" class="text-emerald-200 hover:text-white transition p-1" title="Reset"><i
+                            class="fas fa-trash-alt text-lg"></i></button>
+                    <button id="settingsBtn" class="text-emerald-200 hover:text-white transition p-1"
+                        title="Settings"><i class="fas fa-user-tag text-lg"></i></button>
                 </div>
             </div>
 
             <!-- Settings Panel -->
-            <div id="settingsPanel" class="hidden absolute top-16 left-2 right-2 z-30 bg-gray-900/95 text-white rounded-xl p-4 shadow-2xl backdrop-blur-md border border-white/10">
+            <div id="settingsPanel"
+                class="hidden absolute top-16 left-2 right-2 z-30 bg-gray-900/95 text-white rounded-xl p-4 shadow-2xl backdrop-blur-md border border-white/10">
                 <div class="flex justify-between items-center mb-4 border-b border-white/20 pb-2">
                     <span class="font-bold uppercase tracking-widest text-xs text-emerald-400">Profile</span>
-                    <button id="closeSettingsBtn" class="text-white/60 hover:text-white p-2"><i class="fas fa-times text-lg"></i></button>
+                    <button id="closeSettingsBtn" class="text-white/60 hover:text-white p-2"><i
+                            class="fas fa-times text-lg"></i></button>
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="opacity-70 block mb-1 text-xs">Age</label>
-                        <select id="ageSelect" class="w-full bg-white/10 border border-white/30 rounded-lg p-3 text-sm text-white outline-none"><option value="youth">Youth</option><option value="adult" selected>Adult</option><option value="elder">Elder</option></select>
+                        <select id="ageSelect"
+                            class="w-full bg-white/10 border border-white/30 rounded-lg p-3 text-sm text-white outline-none">
+                            <option value="youth">Youth</option>
+                            <option value="adult" selected>Adult</option>
+                            <option value="elder">Elder</option>
+                        </select>
                     </div>
                     <div>
                         <label class="opacity-70 block mb-1 text-xs">Gender</label>
-                        <select id="genderSelect" class="w-full bg-white/10 border border-white/30 rounded-lg p-3 text-sm text-white outline-none"><option value="male" selected>Male</option><option value="female">Female</option></select>
+                        <select id="genderSelect"
+                            class="w-full bg-white/10 border border-white/30 rounded-lg p-3 text-sm text-white outline-none">
+                            <option value="male" selected>Male</option>
+                            <option value="female">Female</option>
+                        </select>
                     </div>
                     <div>
-                         <label class="opacity-70 block mb-1 text-xs">Voice</label>
-                         <select id="voiceSelect" class="w-full bg-white/10 border border-white/30 rounded-lg p-3 text-sm text-white outline-none"><option value="Umar">Umar (M)</option><option value="Zainab">Zainab (F)</option></select>
+                        <label class="opacity-70 block mb-1 text-xs">Voice</label>
+                        <select id="voiceSelect"
+                            class="w-full bg-white/10 border border-white/30 rounded-lg p-3 text-sm text-white outline-none">
+                            <option value="Umar">Umar (M)</option>
+                            <option value="Zainab">Zainab (F)</option>
+                        </select>
                     </div>
-                    <div class="flex items-center justify-between bg-white/5 p-3 rounded-lg border border-white/10" id="transToggleContainer">
+                    <div class="flex items-center justify-between bg-white/5 p-3 rounded-lg border border-white/10"
+                        id="transToggleContainer">
                         <span class="opacity-90 text-sm">Translation</span>
                         <i id="transToggle" class="fas fa-toggle-off text-2xl cursor-pointer opacity-60"></i>
                     </div>
@@ -87,17 +269,23 @@
         </div>
 
         <!-- NEW: Onboarding / Help Modal -->
-        <div id="guideModal" class="hidden absolute inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-            <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden modal-enter transform transition-all">
+        <div id="guideModal"
+            class="hidden absolute inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+            <div
+                class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden modal-enter transform transition-all">
                 <div class="bg-emerald-900 p-4 text-white text-center relative">
                     <h2 class="font-bold text-lg">Barka da zuwa Magana!</h2>
                     <p class="text-xs text-emerald-200 opacity-80">Your Personal Hausa AI Guide</p>
-                    <button id="closeGuideTop" class="absolute top-4 right-4 text-white/50 hover:text-white"><i class="fas fa-times"></i></button>
+                    <button id="closeGuideTop" class="absolute top-4 right-4 text-white/50 hover:text-white"><i
+                            class="fas fa-times"></i></button>
                 </div>
                 <div class="p-5 space-y-4 max-h-[60vh] overflow-y-auto">
                     <!-- Mode 1 -->
                     <div class="flex gap-3 items-start">
-                        <div class="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center shrink-0"><i class="fas fa-graduation-cap"></i></div>
+                        <div
+                            class="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
                         <div>
                             <h3 class="font-bold text-sm text-gray-800">Teacher Mode (Malam)</h3>
                             <p class="text-xs text-gray-500">I teach lessons simply using proverbs.</p>
@@ -105,7 +293,10 @@
                     </div>
                     <!-- Mode 2 -->
                     <div class="flex gap-3 items-start">
-                        <div class="w-10 h-10 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center shrink-0"><i class="fas fa-brain"></i></div>
+                        <div
+                            class="w-10 h-10 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center shrink-0">
+                            <i class="fas fa-brain"></i>
+                        </div>
                         <div>
                             <h3 class="font-bold text-sm text-gray-800">Reasoning (Tunani)</h3>
                             <p class="text-xs text-gray-500">I solve complex problems step-by-step.</p>
@@ -113,7 +304,10 @@
                     </div>
                     <!-- Mode 3 -->
                     <div class="flex gap-3 items-start">
-                        <div class="w-10 h-10 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center shrink-0"><i class="fas fa-globe"></i></div>
+                        <div
+                            class="w-10 h-10 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center shrink-0">
+                            <i class="fas fa-globe"></i>
+                        </div>
                         <div>
                             <h3 class="font-bold text-sm text-gray-800">Web Search (Bincike)</h3>
                             <p class="text-xs text-gray-500">I check the internet for live news.</p>
@@ -121,12 +315,15 @@
                     </div>
                     <div class="border-t border-gray-100 pt-3 mt-2">
                         <p class="text-xs text-center text-gray-400">
-                            Configure your <b>Age & Gender</b> in settings <i class="fas fa-user-tag"></i> for respect (Ladabi).
+                            Configure your <b>Age & Gender</b> in settings <i class="fas fa-user-tag"></i> for respect
+                            (Ladabi).
                         </p>
                     </div>
                 </div>
                 <div class="p-4 bg-gray-50 text-center">
-                    <button id="closeGuideBtn" class="bg-emerald-700 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-emerald-800 transition w-full active:scale-95">Na Gane (Got it)</button>
+                    <button id="closeGuideBtn"
+                        class="bg-emerald-700 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-emerald-800 transition w-full active:scale-95">Na
+                        Gane (Got it)</button>
                 </div>
             </div>
         </div>
@@ -134,36 +331,129 @@
         <!-- Chat Area -->
         <div id="chatBox" class="flex-1 overflow-y-auto p-4 space-y-4 bg-opacity-50 no-scrollbar pb-24">
             <div class="flex justify-start">
-                <div class="bg-white border border-gray-200 text-gray-800 p-4 rounded-2xl rounded-tl-none shadow-sm max-w-[90%] text-sm leading-relaxed">
-                    Sannu! I am ready. Tap <i class="fas fa-question text-emerald-600"></i> if you need help getting started.
+                <div
+                    class="bg-white border border-gray-200 text-gray-800 p-4 rounded-2xl rounded-tl-none shadow-sm max-w-[90%] text-sm leading-relaxed">
+                    Sannu! I am ready. Tap <i class="fas fa-question text-emerald-600"></i> if you need help getting
+                    started.
                 </div>
             </div>
         </div>
 
         <!-- Input Area -->
         <div class="p-3 bg-white border-t border-gray-100 absolute bottom-0 w-full pb-safe-bottom z-20">
-            <input type="file" id="fileInput" class="hidden" accept=".pdf,.docx,.txt">
-            <div class="flex items-end gap-2">
-                <button id="uploadBtn" class="hidden w-12 h-12 bg-orange-100 text-orange-600 rounded-full items-center justify-center hover:bg-orange-200 transition"><i class="fas fa-paperclip text-lg"></i></button>
-                <div class="flex-1 bg-gray-100 rounded-3xl px-5 py-3 flex items-center shadow-inner">
-                    <input id="textInput" type="text" placeholder="Rubuta saƙo..." class="bg-transparent w-full outline-none text-gray-700 placeholder-gray-400 text-base" autocomplete="off">
+            <!-- Image Preview Container -->
+            <div id="imagePreviewContainer"
+                class="hidden absolute bottom-full left-0 w-full bg-white/90 backdrop-blur border-t border-emerald-100 p-2 transform transition-all animate-fade-in-up">
+                <div class="relative inline-block">
+                    <img id="imagePreview" src="" class="h-24 rounded-lg border border-gray-200 shadow-sm object-cover">
+                    <button id="removeImageBtn"
+                        class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs shadow-md hover:bg-red-600"><i
+                            class="fas fa-times"></i></button>
                 </div>
-                <button id="actionBtn" class="w-12 h-12 bg-emerald-700 rounded-full flex items-center justify-center text-white shadow-lg active:scale-95 shrink-0 transition"><i id="btnIcon" class="fas fa-microphone text-xl"></i></button>
             </div>
-            <div id="fileNameDisplay" class="text-center mt-2 text-xs text-orange-600 font-bold hidden truncate px-4"></div>
+
+            <!-- Plus Menu Popup -->
+            <div id="plusMenu"
+                class="hidden absolute bottom-20 left-4 bg-white rounded-2xl shadow-2xl border border-gray-100 w-56 overflow-hidden z-50 animate-fade-in-up">
+                <div class="p-2 grid gap-1">
+                    <button id="chatBtn"
+                        class="flex items-center gap-3 w-full p-3 hover:bg-emerald-50 rounded-xl transition text-left group">
+                        <div
+                            class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center group-hover:bg-emerald-200 transition">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div>
+                            <div class="text-sm font-bold text-gray-700 group-hover:text-emerald-900">Standard Chat
+                            </div>
+                            <div class="text-[10px] text-gray-400">Hirar Kullum</div>
+                        </div>
+                    </button>
+                    <button id="teacherBtn"
+                        class="flex items-center gap-3 w-full p-3 hover:bg-orange-50 rounded-xl transition text-left group">
+                        <div
+                            class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center group-hover:bg-orange-200 transition">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div>
+                            <div class="text-sm font-bold text-gray-700 group-hover:text-orange-900">Teacher</div>
+                            <div class="text-[10px] text-gray-400">Malam</div>
+                        </div>
+                    </button>
+                    <button id="brainBtn"
+                        class="flex items-center gap-3 w-full p-3 hover:bg-sky-50 rounded-xl transition text-left group">
+                        <div
+                            class="w-8 h-8 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center group-hover:bg-sky-200 transition">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div>
+                            <div class="text-sm font-bold text-gray-700 group-hover:text-sky-900">Reasoning</div>
+                            <div class="text-[10px] text-gray-400">Tunani</div>
+                        </div>
+                    </button>
+                    <button id="searchBtn"
+                        class="flex items-center gap-3 w-full p-3 hover:bg-gray-100 rounded-xl transition text-left group">
+                        <div
+                            class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center group-hover:bg-gray-300 transition">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div>
+                            <div class="text-sm font-bold text-gray-700 group-hover:text-gray-900">Web Search</div>
+                            <div class="text-[10px] text-gray-400">Bincike</div>
+                        </div>
+                    </button>
+                    <button id="visionBtn"
+                        class="flex items-center gap-3 w-full p-3 hover:bg-purple-50 rounded-xl transition text-left group">
+                        <div
+                            class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center group-hover:bg-purple-200 transition">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div>
+                            <div class="text-sm font-bold text-gray-700 group-hover:text-purple-900">Vision</div>
+                            <div class="text-[10px] text-gray-400">Mai Gani</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <input type="file" id="fileInput" class="hidden" accept=".pdf,.docx,.txt">
+            <input type="file" id="imageInput" class="hidden" accept="image/*">
+            <div class="flex items-end gap-2">
+                <!-- PLUS BUTTON -->
+                <button id="plusMenuBtn"
+                    class="w-12 h-12 bg-gray-100 text-gray-600 rounded-full flex items-center justify-center hover:bg-gray-200 transition shrink-0">
+                    <i class="fas fa-plus text-lg"></i>
+                </button>
+
+                <button id="uploadBtn"
+                    class="hidden w-12 h-12 bg-orange-100 text-orange-600 rounded-full items-center justify-center hover:bg-orange-200 transition"><i
+                        class="fas fa-paperclip text-lg"></i></button>
+                <button id="imageUploadBtn"
+                    class="hidden w-12 h-12 bg-purple-100 text-purple-600 rounded-full items-center justify-center hover:bg-purple-200 transition"><i
+                        class="fas fa-image text-lg"></i></button>
+                <div class="flex-1 bg-gray-100 rounded-3xl px-5 py-3 flex items-center shadow-inner">
+                    <input id="textInput" type="text" placeholder="Rubuta saƙo..."
+                        class="bg-transparent w-full outline-none text-gray-700 placeholder-gray-400 text-base"
+                        autocomplete="off">
+                </div>
+                <button id="actionBtn"
+                    class="w-12 h-12 bg-emerald-700 rounded-full flex items-center justify-center text-white shadow-lg active:scale-95 shrink-0 transition"><i
+                        id="btnIcon" class="fas fa-microphone text-xl"></i></button>
+            </div>
+            <div id="fileNameDisplay" class="text-center mt-2 text-xs text-orange-600 font-bold hidden truncate px-4">
+            </div>
         </div>
     </div>
 
     <script>
         const SESSION_ID = 'sess_' + Math.random().toString(36).substr(2, 9);
-        
-        // --- FIXED: ADDED guideModal, helpBtn, closeGuideBtn, closeGuideTop to the list ---
-        const [chatBox, textInput, actionBtn, btnIcon, teacherBtn, brainBtn, searchBtn, settingsBtn, newChatBtn, closeSettingsBtn, settingsPanel, uploadBtn, fileInput, transToggle, transToggleContainer, helpBtn, guideModal, closeGuideBtn, closeGuideTop] 
-        = ['chatBox', 'textInput', 'actionBtn', 'btnIcon', 'teacherBtn', 'brainBtn', 'searchBtn', 'settingsBtn', 'newChatBtn', 'closeSettingsBtn', 'settingsPanel', 'uploadBtn', 'fileInput', 'transToggle', 'transToggleContainer', 'helpBtn', 'guideModal', 'closeGuideBtn', 'closeGuideTop']
-        .map(id => document.getElementById(id));
 
-        let isTeacherMode = false; let isReasoningMode = false; let isSearchMode = false;
-        let showTranslation = false; let isRecording = false; let mediaRecorder; let audioChunks = []; let selectedFile = null;
+        const [chatBox, textInput, actionBtn, btnIcon, teacherBtn, brainBtn, searchBtn, visionBtn, settingsBtn, newChatBtn, closeSettingsBtn, settingsPanel, uploadBtn, imageUploadBtn, fileInput, imageInput, transToggle, transToggleContainer, helpBtn, guideModal, closeGuideBtn, closeGuideTop, imagePreviewContainer, imagePreview, removeImageBtn, plusMenuBtn, plusMenu, chatBtn]
+            = ['chatBox', 'textInput', 'actionBtn', 'btnIcon', 'teacherBtn', 'brainBtn', 'searchBtn', 'visionBtn', 'settingsBtn', 'newChatBtn', 'closeSettingsBtn', 'settingsPanel', 'uploadBtn', 'imageUploadBtn', 'fileInput', 'imageInput', 'transToggle', 'transToggleContainer', 'helpBtn', 'guideModal', 'closeGuideBtn', 'closeGuideTop', 'imagePreviewContainer', 'imagePreview', 'removeImageBtn', 'plusMenuBtn', 'plusMenu', 'chatBtn']
+                .map(id => document.getElementById(id));
+
+        let isTeacherMode = false; let isReasoningMode = false; let isSearchMode = false; let isVisionMode = false;
+        let showTranslation = false; let isRecording = false; let mediaRecorder; let audioChunks = []; let selectedFile = null; let selectedImage = null;
+        let abortController = null; let typeTimer = null; let isGenerating = false;
 
         // --- ONBOARDING LOGIC ---
         // Show guide if not seen before
@@ -173,7 +463,7 @@
 
         // Help Button Logic
         helpBtn.onclick = () => { guideModal.classList.remove('hidden'); }
-        
+
         // Close Logic
         const closeGuide = () => {
             guideModal.classList.add('hidden');
@@ -185,52 +475,126 @@
         // --- EXISTING LOGIC ---
         settingsBtn.onclick = () => settingsPanel.classList.remove('hidden');
         closeSettingsBtn.onclick = () => settingsPanel.classList.add('hidden');
-        newChatBtn.onclick = async () => { if(confirm("Start new chat?")) { await fetch('/api/clear', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ session_id: SESSION_ID }) }); chatBox.innerHTML = ''; addBubble('bot', 'Memory cleared. Sannu!', false); } };
-        
-        teacherBtn.onclick = () => { isTeacherMode = !isTeacherMode; isReasoningMode = false; isSearchMode = false; updateTheme(); };
-        brainBtn.onclick = () => { isReasoningMode = !isReasoningMode; isTeacherMode = false; isSearchMode = false; updateTheme(); };
-        searchBtn.onclick = () => { isSearchMode = !isSearchMode; isTeacherMode = false; isReasoningMode = false; updateTheme(); };
+        newChatBtn.onclick = async () => { if (confirm("Start new chat?")) { await fetch('/api/clear', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ session_id: SESSION_ID }) }); chatBox.innerHTML = ''; addBubble('bot', 'Memory cleared. Sannu!', false); } };
+
+        // Toggle Plus Menu
+        plusMenuBtn.onclick = (e) => {
+            e.stopPropagation();
+            plusMenu.classList.toggle('hidden');
+            plusMenuBtn.querySelector('i').classList.toggle('fa-plus');
+            plusMenuBtn.querySelector('i').classList.toggle('fa-times');
+        };
+
+        // Close menu when clicking outside
+        document.onclick = (e) => {
+            if (!plusMenu.contains(e.target) && !plusMenuBtn.contains(e.target)) {
+                plusMenu.classList.add('hidden');
+                plusMenuBtn.querySelector('i').classList.add('fa-plus');
+                plusMenuBtn.querySelector('i').classList.remove('fa-times');
+            }
+        };
+
+        chatBtn.onclick = () => { isTeacherMode = false; isReasoningMode = false; isSearchMode = false; isVisionMode = false; updateTheme(); plusMenu.classList.add('hidden'); };
+        teacherBtn.onclick = () => { isTeacherMode = !isTeacherMode; isReasoningMode = false; isSearchMode = false; isVisionMode = false; updateTheme(); plusMenu.classList.add('hidden'); };
+        brainBtn.onclick = () => { isReasoningMode = !isReasoningMode; isTeacherMode = false; isSearchMode = false; isVisionMode = false; updateTheme(); plusMenu.classList.add('hidden'); };
+        searchBtn.onclick = () => { isSearchMode = !isSearchMode; isTeacherMode = false; isReasoningMode = false; isVisionMode = false; updateTheme(); plusMenu.classList.add('hidden'); };
+        visionBtn.onclick = () => { isVisionMode = !isVisionMode; isTeacherMode = false; isReasoningMode = false; isSearchMode = false; updateTheme(); plusMenu.classList.add('hidden'); };
 
         transToggleContainer.onclick = () => { showTranslation = !showTranslation; transToggle.className = showTranslation ? 'fas fa-toggle-on text-2xl text-emerald-400' : 'fas fa-toggle-off text-2xl opacity-60'; document.querySelectorAll('.trans-text').forEach(el => el.style.display = showTranslation ? 'block' : 'none'); };
+
+
         uploadBtn.onclick = () => fileInput.click();
-        fileInput.onchange = (e) => { if(e.target.files.length) { selectedFile = e.target.files[0]; document.getElementById('fileNameDisplay').textContent = `📎 ${selectedFile.name}`; document.getElementById('fileNameDisplay').classList.remove('hidden'); btnIcon.className = 'fas fa-paper-plane'; } };
-        textInput.oninput = () => btnIcon.className = textInput.value.trim() || selectedFile ? 'fas fa-paper-plane' : 'fas fa-microphone';
-        textInput.addEventListener("keypress", (e) => { if (e.key === "Enter") { e.preventDefault(); actionBtn.click(); } });
-        actionBtn.onclick = () => (selectedFile || textInput.value.trim()) ? sendData(textInput.value.trim(), null, selectedFile) : handleVoice();
+        imageUploadBtn.onclick = () => imageInput.click();
+
+        fileInput.onchange = (e) => {
+            if (e.target.files.length) {
+                selectedFile = e.target.files[0]; selectedImage = null;
+                document.getElementById('fileNameDisplay').textContent = `📎 ${selectedFile.name}`;
+                document.getElementById('fileNameDisplay').classList.remove('hidden');
+                imagePreviewContainer.classList.add('hidden');
+                btnIcon.className = 'fas fa-paper-plane';
+            }
+        };
+
+        imageInput.onchange = (e) => {
+            if (e.target.files.length) {
+                selectedImage = e.target.files[0]; selectedFile = null;
+                document.getElementById('fileNameDisplay').classList.add('hidden');
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    // Add user bubble with image
+                    addBubble('user', text || " ", false, null, null, null, [], null, false, e.target.result);
+                }
+                reader.readAsDataURL(selectedImage);
+                btnIcon.className = 'fas fa-paper-plane';
+            }
+        };
+
+        removeImageBtn.onclick = () => {
+            selectedImage = null; imageInput.value = '';
+            imagePreviewContainer.classList.add('hidden');
+            btnIcon.className = textInput.value.trim() ? 'fas fa-paper-plane' : 'fas fa-microphone';
+        };
+
+        textInput.oninput = () => {
+            if (!isGenerating) btnIcon.className = textInput.value.trim() || selectedFile || selectedImage ? 'fas fa-paper-plane' : 'fas fa-microphone';
+        };
+        textInput.addEventListener("keypress", (e) => { if (e.key === "Enter" && !isGenerating) { e.preventDefault(); actionBtn.click(); } });
+
+        actionBtn.onclick = () => {
+            if (isGenerating) {
+                stopGeneration();
+            } else if (selectedFile || selectedImage || textInput.value.trim()) {
+                sendData(textInput.value.trim(), null, selectedFile, selectedImage);
+            } else {
+                handleVoice();
+            }
+        };
 
         function updateTheme() {
-             document.body.className = 'flex justify-center items-center h-[100dvh] w-full'; 
-             uploadBtn.classList.add('hidden'); uploadBtn.classList.remove('flex');
-             actionBtn.className = 'w-12 h-12 rounded-full flex items-center justify-center text-white shadow-lg active:scale-95 shrink-0 transition';
-             [teacherBtn, brainBtn, searchBtn].forEach(b => b.className = 'text-emerald-200 hover:text-white transition p-1');
+            document.body.className = 'flex justify-center items-center h-[100dvh] w-full';
+            uploadBtn.classList.add('hidden'); uploadBtn.classList.remove('flex');
+            actionBtn.className = 'w-12 h-12 rounded-full flex items-center justify-center text-white shadow-lg active:scale-95 shrink-0 transition';
 
-             if(isTeacherMode) {
-                 document.body.classList.add('teacher-mode'); document.getElementById('appTitle').innerText = "TEACHER";
-                 actionBtn.classList.add('bg-orange-700'); teacherBtn.classList.replace('text-emerald-200', 'text-white');
-                 uploadBtn.classList.remove('hidden'); uploadBtn.classList.add('flex');
-             } else if(isReasoningMode) {
-                 document.body.classList.add('brain-mode'); document.getElementById('appTitle').innerText = "REASONING";
-                 actionBtn.classList.add('bg-sky-700'); brainBtn.classList.replace('text-emerald-200', 'text-white');
-             } else if(isSearchMode) {
-                 document.body.classList.add('search-mode'); document.getElementById('appTitle').innerText = "WEB SEARCH";
-                 actionBtn.classList.add('bg-gray-700'); searchBtn.classList.replace('text-emerald-200', 'text-white');
-             } else {
-                 document.getElementById('appTitle').innerText = "MAGANA"; actionBtn.classList.add('bg-emerald-700');
-             }
+            // Reset icons in menu (simplified check)
+            // Ideally we'd highlight the active menu item here.
+
+            if (isTeacherMode) {
+                document.body.classList.add('teacher-mode'); document.getElementById('appTitle').innerText = "TEACHER";
+                actionBtn.classList.add('bg-orange-700');
+                uploadBtn.classList.remove('hidden'); uploadBtn.classList.add('flex');
+            } else if (isReasoningMode) {
+                document.body.classList.add('brain-mode'); document.getElementById('appTitle').innerText = "REASONING";
+                actionBtn.classList.add('bg-sky-700');
+            } else if (isSearchMode) {
+                document.body.classList.add('search-mode'); document.getElementById('appTitle').innerText = "WEB SEARCH";
+                actionBtn.classList.add('bg-gray-700');
+            } else if (isVisionMode) {
+                document.body.classList.add('vision-mode'); document.getElementById('appTitle').innerText = "VISION";
+                actionBtn.classList.add('bg-purple-700');
+                imageUploadBtn.classList.remove('hidden'); imageUploadBtn.classList.add('flex');
+            } else {
+                document.getElementById('appTitle').innerText = "MAGANA";
+                actionBtn.classList.add('bg-emerald-700');
+            }
+
+            if (!isTeacherMode) { uploadBtn.classList.add('hidden'); uploadBtn.classList.remove('flex'); }
+            if (!isVisionMode) { imageUploadBtn.classList.add('hidden'); imageUploadBtn.classList.remove('flex'); }
         }
 
         async function handleVoice() {
-             if (!isRecording) {
-                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                 mediaRecorder = new MediaRecorder(stream); mediaRecorder.start(); isRecording = true;
-                 actionBtn.classList.add('bg-red-500', 'pulse-record'); btnIcon.className = 'fas fa-stop'; textInput.disabled = true; textInput.placeholder = "Listening...";
-                 mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-             } else {
-                 mediaRecorder.stop(); isRecording = false;
-                 actionBtn.classList.remove('bg-red-500', 'pulse-record'); btnIcon.className = 'fas fa-microphone'; textInput.disabled = false; textInput.placeholder = "Rubuta saƙo...";
-                 mediaRecorder.onstop = () => { const blob = new Blob(audioChunks, { type: 'audio/wav' }); audioChunks = []; sendData(null, blob); };
-             }
-         }
+            if (!isRecording) {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream); mediaRecorder.start(); isRecording = true;
+                actionBtn.classList.add('bg-red-500', 'pulse-record'); btnIcon.className = 'fas fa-stop'; textInput.disabled = true; textInput.placeholder = "Listening...";
+                mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+            } else {
+                mediaRecorder.stop(); isRecording = false;
+                actionBtn.classList.remove('bg-red-500', 'pulse-record'); btnIcon.className = 'fas fa-microphone'; textInput.disabled = false; textInput.placeholder = "Rubuta saƙo...";
+                mediaRecorder.onstop = () => { const blob = new Blob(audioChunks, { type: 'audio/wav' }); audioChunks = []; sendData(null, blob); };
+            }
+        }
 
         function typeWriter(elementId, text) {
             const element = document.getElementById(elementId);
@@ -238,22 +602,98 @@
             function type() {
                 if (i < text.length) {
                     if (text.charAt(i) === '\n') { element.innerHTML += '<br>'; } else { element.innerHTML += text.charAt(i); }
-                    i++; document.getElementById('chatBox').scrollTop = document.getElementById('chatBox').scrollHeight; setTimeout(type, speed);
-                } else { element.classList.remove('typing-cursor'); element.classList.add('typing-finished'); }
+                    i++; document.getElementById('chatBox').scrollTop = document.getElementById('chatBox').scrollHeight;
+                    typeTimer = setTimeout(type, speed);
+                } else {
+                    element.classList.remove('typing-cursor'); element.classList.add('typing-finished');
+                    isGenerating = false;
+                    resetUI();
+                }
             } type();
         }
 
-        async function sendData(text, audioBlob, docFile) {
-            let msg = text || "🎤 Voice"; if (docFile) msg = `📎 ${docFile.name}`;
-            addBubble('user', msg, false);
-            textInput.value = ''; fileInput.value = ''; selectedFile = null;
+        function stopGeneration() {
+            if (abortController) {
+                abortController.abort();
+                abortController = null;
+            }
+            if (typeTimer) {
+                clearTimeout(typeTimer);
+                typeTimer = null;
+            }
+            isGenerating = false;
+
+            // Remove typing cursor from current bubble if any
+            const cursors = document.querySelectorAll('.typing-cursor');
+            cursors.forEach(el => {
+                el.classList.remove('typing-cursor');
+                el.classList.add('typing-finished');
+            });
+
+            // Remove loading bubble if any
+            const loaders = document.querySelectorAll('.hausa-loader');
+            loaders.forEach(loader => {
+                // Heuristic: remove parent bubble if it contains a spinner
+                const bubble = loader.closest('.animate-fade-in-up');
+                if (bubble && bubble.textContent.trim() === '') {
+                    bubble.remove();
+                }
+            });
+
+            resetUI();
+        }
+
+        function resetUI() {
+            actionBtn.classList.remove('bg-red-500', 'pulse-record');
+            // Restore correct icon
+            const hasInput = textInput.value.trim() || selectedFile || selectedImage;
+            btnIcon.className = hasInput ? 'fas fa-paper-plane' : 'fas fa-microphone';
+            // If we were recording, ensure we stop
+            if (isRecording && mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+                isRecording = false;
+            }
+            textInput.disabled = false;
+            if (textInput.placeholder === "Listening...") textInput.placeholder = "Rubuta saƙo...";
+        }
+
+        async function sendData(text, audioBlob, docFile, imgFile) {
+            let msg = text || "🎤 Voice";
+            let imgSrc = null;
+
+            if (docFile) msg = `📎 ${docFile.name}`;
+            if (imgFile) {
+                msg = `🖼️ ${imgFile.name}`;
+                // Keep image preview logic for bubble
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    // Add user bubble with image
+                    addBubble('user', text || " ", false, null, null, null, [], null, false, e.target.result);
+                }
+                reader.readAsDataURL(imgFile);
+            } else {
+                addBubble('user', msg, false);
+            }
+
+            textInput.value = ''; fileInput.value = ''; imageInput.value = '';
+            selectedFile = null; selectedImage = null;
             document.getElementById('fileNameDisplay').classList.add('hidden');
-            
-            const loadId = addBubble('bot', '<i class="fas fa-circle-notch fa-spin"></i>', true);
+            imagePreviewContainer.classList.add('hidden');
+
+            const loadId = addBubble('bot', '<div class="hausa-loader"><span></span><span></span><span></span></div>', true);
+
+            // UI State: Generating
+            isGenerating = true;
+            btnIcon.className = 'fas fa-stop';
+            abortController = new AbortController();
+
             const fd = new FormData();
-            if(text) fd.append('text', text); if(audioBlob) fd.append('audio', audioBlob, 'input.wav'); if(docFile) fd.append('document', docFile);
-            
-            fd.append('mode', isTeacherMode ? 'teacher' : 'chat');
+            if (text) fd.append('text', text);
+            if (audioBlob) fd.append('audio', audioBlob, 'input.wav');
+            if (docFile) fd.append('document', docFile);
+            if (imgFile) fd.append('image', imgFile);
+
+            fd.append('mode', isVisionMode ? 'vision' : (isTeacherMode ? 'teacher' : 'chat'));
             fd.append('reasoning_mode', isReasoningMode);
             fd.append('search_mode', isSearchMode);
             fd.append('user_age', document.getElementById('ageSelect').value);
@@ -261,15 +701,29 @@
             fd.append('session_id', SESSION_ID);
 
             try {
-                const res = await fetch('/api/chat', { method: 'POST', body: fd });
+                const res = await fetch('/api/chat', {
+                    method: 'POST',
+                    body: fd,
+                    signal: abortController.signal
+                });
                 const data = await res.json();
                 document.getElementById(loadId).remove();
-                
+
                 const bubbleId = addBubble('bot', '', false, null, data.english_translation, data.proverb_used, data.steps, data.analysis, true);
                 typeWriter(`text-${bubbleId}`, data.bot_reply);
+                // Audio happens in background, no need to await
                 fetchAudioInBackground(data.bot_reply, bubbleId);
-                
-            } catch(e) { document.getElementById(loadId).remove(); addBubble('bot', "Connection Error.", false); }
+
+            } catch (e) {
+                if (e.name === 'AbortError') {
+                    // console.log("Aborted");
+                } else {
+                    document.getElementById(loadId)?.remove();
+                    addBubble('bot', "Connection Error.", false);
+                    resetUI();
+                    isGenerating = false;
+                }
+            }
         }
 
         async function fetchAudioInBackground(textToSpeak, bubbleId) {
@@ -280,53 +734,87 @@
             bubbleDiv.appendChild(audioLoader);
 
             try {
-                const res = await fetch('/api/tts', { 
-                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                const res = await fetch('/api/tts', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ text: textToSpeak, voice_id: document.getElementById('voiceSelect').value })
                 });
                 const data = await res.json();
                 audioLoader.remove();
-                if(data.audio_base64) {
+                if (data.audio_base64) {
                     const audioHtml = `<div class="mt-2 pt-2 border-t border-gray-100 fade-in"><audio controls autoplay src="data:audio/mp3;base64,${data.audio_base64}" class="w-full h-10 rounded-lg bg-gray-50"></audio></div>`;
                     bubbleDiv.insertAdjacentHTML('beforeend', audioHtml);
                     document.getElementById('chatBox').scrollTop = document.getElementById('chatBox').scrollHeight;
                 }
-            } catch(e) { audioLoader.innerHTML = '<span class="text-red-400">Audio Failed</span>'; }
+            } catch (e) { audioLoader.innerHTML = '<span class="text-red-400">Audio Failed</span>'; }
         }
 
-        function addBubble(role, text, isLoading=false, audioB64=null, trans=null, proverb=null, steps=[], analysis=null, isTyping=false) {
+        window.editBubble = function (btn) {
+            const txt = btn.parentElement.querySelector('.raw-text').innerText;
+            const input = document.getElementById('textInput');
+            input.value = txt;
+            input.focus();
+            document.getElementById('btnIcon').className = 'fas fa-paper-plane';
+            // Scroll input into view if needed
+            input.scrollIntoView({ behavior: "smooth" });
+        }
+
+        window.toggleReasoning = function (id) {
+            const el = document.getElementById(`reasoning-${id}`);
+            const chevron = document.getElementById(`chevron-${id}`);
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+                chevron.classList.replace('fa-chevron-right', 'fa-chevron-down');
+            } else {
+                el.classList.add('hidden');
+                chevron.classList.replace('fa-chevron-down', 'fa-chevron-right');
+            }
+        }
+
+        function addBubble(role, text, isLoading = false, audioB64 = null, trans = null, proverb = null, steps = [], analysis = null, isTyping = false, imageSrc = null) {
             const div = document.createElement('div'); const id = Date.now(); div.id = id;
             div.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in-up`;
-            
+
             let bg = 'bg-white border border-gray-200 text-gray-800 rounded-tl-none';
-            if(role === 'user') {
-                if(isReasoningMode) bg = 'bg-sky-600 text-white rounded-tr-none';
-                else if(isTeacherMode) bg = 'bg-orange-600 text-white rounded-tr-none';
-                else if(isSearchMode) bg = 'bg-gray-700 text-white rounded-tr-none';
+            if (role === 'user') {
+                if (isReasoningMode) bg = 'bg-sky-600 text-white rounded-tr-none';
+                else if (isTeacherMode) bg = 'bg-orange-600 text-white rounded-tr-none';
+                else if (isSearchMode) bg = 'bg-gray-700 text-white rounded-tr-none';
                 else bg = 'bg-emerald-700 text-white rounded-tr-none';
             }
-            
-            let html = `<div class="${bg} p-4 rounded-2xl shadow-sm max-w-[90%] text-sm main-content">`;
-            if (steps && steps.length > 0) {
-                html += `<div class="reasoning-box"><div class="font-bold text-sky-700 mb-2 border-b border-sky-200 pb-1">Hanyoyin Tunani:</div>`;
-                steps.forEach((step, index) => { html += `<div class="step-item"><span class="step-num">${index+1}.</span><span>${step}</span></div>`; });
-                if(analysis) html += `<div class="analysis-text">💡 <b>Dalili:</b> ${analysis}</div>`;
-                html += `</div>`;
-            }
-            if(proverb) html += `<div class="proverb-box"><i class="fas fa-quote-left mr-1"></i>${proverb}</div>`;
 
-            if (isLoading) { html += `<div>${text}</div>`; } 
-            else if (role === 'user') { html += `<div>${text.replace(/\n/g, '<br>')}</div>`; } 
-            else if (isTyping) { html += `<div id="text-${id}" class="typing-cursor leading-relaxed"></div>`; } 
+            let html = `<div class="${bg} p-4 rounded-2xl shadow-sm max-w-[90%] text-sm main-content group relative">`;
+
+            // Collapsible Reasoning
+            if (steps && steps.length > 0) {
+                html += `<div class="mb-3">`;
+                html += `<button onclick="window.toggleReasoning(${id})" class="text-xs font-bold ${role === 'user' ? 'text-white/80 hover:text-white' : 'text-sky-600 hover:text-sky-800'} flex items-center gap-1 focus:outline-none transition-colors"><i id="chevron-${id}" class="fas fa-chevron-right text-[10px]"></i> Show Thinking Process</button>`;
+                html += `<div id="reasoning-${id}" class="hidden animate-fade-in-up">`;
+                html += `<div class="reasoning-box mt-2"><div class="font-bold text-sky-700 mb-2 border-b border-sky-200 pb-1">Hanyoyin Tunani:</div>`;
+                steps.forEach((step, index) => { html += `<div class="step-item"><span class="step-num">${index + 1}.</span><span>${step}</span></div>`; });
+                if (analysis) html += `<div class="analysis-text">💡 <b>Dalili:</b> ${analysis}</div>`;
+                html += `</div></div></div>`;
+            }
+
+            if (proverb) html += `<div class="proverb-box"><i class="fas fa-quote-left mr-1"></i>${proverb}</div>`;
+
+            if (isLoading) { html += `<div>${text}</div>`; }
+            else if (role === 'user') {
+                if (imageSrc) html += `<img src="${imageSrc}" class="w-full max-w-[200px] rounded-lg mb-2 border border-white/20">`;
+                html += `<div>${text.replace(/\n/g, '<br>')}</div>`;
+                html += `<div class="hidden raw-text">${text}</div>`;
+                html += `<button onclick="window.editBubble(this)" class="mt-1 text-[10px] opacity-60 hover:opacity-100 flex items-center gap-1 ml-auto text-white/90 transition"><i class="fas fa-pen"></i> Edit</button>`;
+            }
+            else if (isTyping) { html += `<div id="text-${id}" class="typing-cursor leading-relaxed"></div>`; }
             else { html += `<div class="leading-relaxed">${text}</div>`; }
 
-            if(trans) html += `<p class="trans-text text-xs text-gray-500 italic mt-2 pt-2 border-t border-gray-100" style="display:${showTranslation?'block':'none'}">${trans}</p>`;
-            if(audioB64) html += `<div class="mt-2 pt-2 border-t border-gray-100"><audio controls autoplay src="data:audio/mp3;base64,${audioB64}" class="w-full h-8"></audio></div>`;
-            
+            if (trans) html += `<p class="trans-text text-xs text-gray-500 italic mt-2 pt-2 border-t border-gray-100" style="display:${showTranslation ? 'block' : 'none'}">${trans}</p>`;
+            if (audioB64) html += `<div class="mt-2 pt-2 border-t border-gray-100"><audio controls autoplay src="data:audio/mp3;base64,${audioB64}" class="w-full h-8"></audio></div>`;
+
             html += `</div>`; div.innerHTML = html;
             chatBox.appendChild(div); chatBox.scrollTop = chatBox.scrollHeight;
             return id;
         }
     </script>
 </body>
+
 </html>
