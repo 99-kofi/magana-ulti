@@ -27,6 +27,7 @@ def chat():
     text_input = request.form.get('text')
     voice_file = request.files.get('audio')
     doc_file = request.files.get('document')
+    image_file = request.files.get('image')
     
     # Context
     mode = request.form.get('mode', 'chat')
@@ -52,6 +53,12 @@ def chat():
         voice_file.save(temp)
         response_data = get_gemini_response(audio_file_path=temp, mode=mode, user_age=user_age, user_gender=user_gender, session_id=session_id, reasoning_mode=reasoning_mode, search_mode=search_mode)
         os.remove(temp)
+
+    elif image_file:
+        filename = os.path.join(UPLOAD_FOLDER, image_file.filename)
+        image_file.save(filename)
+        response_data = get_gemini_response(text_input=text_input, image_file_path=filename, mode="vision", user_age=user_age, user_gender=user_gender, session_id=session_id, reasoning_mode=reasoning_mode, search_mode=search_mode)
+        os.remove(filename)
 
     else:
         response_data = get_gemini_response(text_input=text_input, mode=mode, user_age=user_age, user_gender=user_gender, session_id=session_id, reasoning_mode=reasoning_mode, search_mode=search_mode)
