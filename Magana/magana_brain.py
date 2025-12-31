@@ -182,5 +182,19 @@ def get_gemini_response(text_input=None, audio_file_path=None, document_text=Non
         return parsed
 
     except Exception as e:
+        # Log the full error for the developer
         print(f"Brain Error: {e}")
-        return {"reply_text": "Yi hakuri, network matsala." + str(e), "intent": "error"}
+        
+        # User-friendly generic error message in Hausa
+        friendly_error = "Yi hakuri, network na ɗan bada matsala. Da fatan za a sake gwadawa anjima."
+        
+        # Determine if it's a quota issue (heuristic)
+        if "429" in str(e):
+            friendly_error = "Yi hakuri, mun cikata aiki da yawa. Da fatan za a ɗan jira kaɗan."
+
+        return {
+            "reply_text": friendly_error,
+            "intent": "error",
+            "proverb_used": "Hakuri maganin zaman duniya.", # Patience is the cure for worldly living
+            "english_translation": "Sorry, there is a network issue. Please try again later."
+        }
