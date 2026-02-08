@@ -785,12 +785,15 @@
             let html = `<div class="${bg} p-4 rounded-2xl shadow-sm max-w-[90%] text-sm main-content group relative">`;
 
             // Collapsible Reasoning
-            if (steps && steps.length > 0) {
+            if ((steps && steps.length > 0) || analysis) {
                 html += `<div class="mb-3">`;
                 html += `<button onclick="window.toggleReasoning(${id})" class="text-xs font-bold ${role === 'user' ? 'text-white/80 hover:text-white' : 'text-sky-600 hover:text-sky-800'} flex items-center gap-1 focus:outline-none transition-colors"><i id="chevron-${id}" class="fas fa-chevron-right text-[10px]"></i> Show Thinking Process</button>`;
                 html += `<div id="reasoning-${id}" class="hidden animate-fade-in-up">`;
-                html += `<div class="reasoning-box mt-2"><div class="font-bold text-sky-700 mb-2 border-b border-sky-200 pb-1">Hanyoyin Tunani:</div>`;
-                steps.forEach((step, index) => { html += `<div class="step-item"><span class="step-num">${index + 1}.</span><span>${step}</span></div>`; });
+                html += `<div class="reasoning-box mt-2">`;
+                if (steps && steps.length > 0) {
+                    html += `<div class="font-bold text-sky-700 mb-2 border-b border-sky-200 pb-1">Hanyoyin Tunani:</div>`;
+                    steps.forEach((step, index) => { html += `<div class="step-item"><span class="step-num">${index + 1}.</span><span>${step}</span></div>`; });
+                }
                 if (analysis) html += `<div class="analysis-text">💡 <b>Dalili:</b> ${analysis}</div>`;
                 html += `</div></div></div>`;
             }
@@ -807,7 +810,12 @@
             else if (isTyping) { html += `<div id="text-${id}" class="typing-cursor leading-relaxed"></div>`; }
             else { html += `<div class="leading-relaxed">${text}</div>`; }
 
-            if (trans) html += `<p class="trans-text text-xs text-gray-500 italic mt-2 pt-2 border-t border-gray-100" style="display:${showTranslation ? 'block' : 'none'}">${trans}</p>`;
+            if (trans) {
+                html += `<div class="trans-text text-xs text-gray-500 mt-2 pt-2 border-t border-gray-100" style="display:${showTranslation ? 'block' : 'none'}">`;
+                html += `<div class="font-semibold text-gray-600 mb-1 not-italic">English Translation</div>`;
+                html += `<p class="italic">${trans}</p>`;
+                html += `</div>`;
+            }
             if (audioB64) html += `<div class="mt-2 pt-2 border-t border-gray-100"><audio controls autoplay src="data:audio/mp3;base64,${audioB64}" class="w-full h-8"></audio></div>`;
 
             html += `</div>`; div.innerHTML = html;

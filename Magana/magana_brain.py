@@ -78,6 +78,54 @@ def get_cultural_prompt(user_age, user_gender, mode, reasoning_mode, search_mode
 
 
 def _extract_reply_text(result):
+    def _try_parse_json_blob(value):
+        if not isinstance(value, str):
+            return None
+
+        candidate = value.strip()
+        if not candidate:
+            return None
+
+        try:
+            parsed_value = json.loads(candidate)
+            if isinstance(parsed_value, dict):
+                return candidate
+        except json.JSONDecodeError:
+            pass
+
+        fence_match = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", candidate, re.DOTALL)
+        if fence_match:
+            try:
+                parsed_value = json.loads(fence_match.group(1))
+                if isinstance(parsed_value, dict):
+                    return fence_match.group(1)
+            except json.JSONDecodeError:
+                return None
+        return None
+
+    def _find_json_in_nested(value):
+        parsed_blob = _try_parse_json_blob(value)
+        if parsed_blob:
+            return parsed_blob
+
+        if isinstance(value, (list, tuple)):
+            for item in reversed(value):
+                found = _find_json_in_nested(item)
+                if found:
+                    return found
+
+        if isinstance(value, dict):
+            for item in reversed(list(value.values())):
+                found = _find_json_in_nested(item)
+                if found:
+                    return found
+
+        return None
+
+    nested_json = _find_json_in_nested(result)
+    if nested_json:
+        return nested_json
+
     if isinstance(result, str):
         return result
 
