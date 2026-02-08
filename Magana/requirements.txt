@@ -2,5 +2,6 @@ flask
 requests
 python-dotenv
 google-genai
+gradio_client
 PyPDF2
 python-docx
