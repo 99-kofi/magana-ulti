@@ -1,4 +1,6 @@
 import os
+import json
+import re
 from dotenv import load_dotenv
 from gradio_client import Client
 from web_search import search_web
@@ -90,6 +92,55 @@ def _extract_reply_text(result):
     return ""
 
 
+def _parse_model_json(reply_text, fallback_transcription):
+    """Normalize model output into the API's expected JSON payload."""
+    defaults = {
+        "transcription": fallback_transcription,
+        "reply_text": "Yi hakuri, ban fahimta sosai ba.",
+        "english_translation": "",
+        "proverb_used": "",
+        "steps": [],
+        "analysis": "",
+        "intent": "chat",
+    }
+
+    if not reply_text:
+        return defaults
+
+    parsed = None
+    cleaned = reply_text.strip()
+
+    # Prefer direct JSON bodies if the model followed the prompt.
+    try:
+        parsed = json.loads(cleaned)
+    except json.JSONDecodeError:
+        # Handle markdown JSON fences or extra wrapper text.
+        fence_match = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", cleaned, re.DOTALL)
+        if fence_match:
+            try:
+                parsed = json.loads(fence_match.group(1))
+            except json.JSONDecodeError:
+                parsed = None
+
+    if not isinstance(parsed, dict):
+        # Fall back to plain-text reply while still returning a formatted shape.
+        defaults["reply_text"] = cleaned
+        return defaults
+
+    response = defaults.copy()
+    response.update({k: v for k, v in parsed.items() if k in response})
+
+    # Guardrails for type safety and required fields.
+    if not isinstance(response.get("steps"), list):
+        response["steps"] = []
+    if not response.get("transcription"):
+        response["transcription"] = fallback_transcription
+    if not isinstance(response.get("reply_text"), str) or not response["reply_text"].strip():
+        response["reply_text"] = defaults["reply_text"]
+
+    return response
+
+
 def get_gemini_response(
     text_input=None,
     audio_file_path=None,
@@ -160,21 +211,15 @@ def get_gemini_response(
             api_name="/predict",
         )
 
-        reply_text = _extract_reply_text(result)
+        raw_reply_text = _extract_reply_text(result)
+        parsed_response = _parse_model_json(raw_reply_text, history_text_rep)
+        reply_text = parsed_response["reply_text"]
         CONVERSATION_HISTORY[session_id].append([history_text_rep, reply_text])
 
         if len(CONVERSATION_HISTORY[session_id]) > 20:
             CONVERSATION_HISTORY[session_id] = CONVERSATION_HISTORY[session_id][-20:]
 
-        return {
-            "transcription": history_text_rep,
-            "reply_text": reply_text,
-            "english_translation": "",
-            "proverb_used": "",
-            "steps": [],
-            "analysis": "",
-            "intent": "chat",
-        }
+        return parsed_response
 
     except Exception as e:
         print(f"Brain Error: {e}")
